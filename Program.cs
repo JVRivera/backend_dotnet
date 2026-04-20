@@ -7,6 +7,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// para que escuche el puerto que le asigne el servidor cuando se hace el deploy
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://*:{port}");
+
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -51,10 +55,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 var app = builder.Build();
-
-// para que escuche el puerto que le asigne el servidor cuando se hace el deploy
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
 
 // Swagger
 app.UseSwagger();
