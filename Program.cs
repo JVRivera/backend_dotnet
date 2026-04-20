@@ -67,10 +67,10 @@ app.UseCors("AllowAll");
 
 //app.UseAuthorization();
 
-app.MapControllers();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapGet("/", () => "Backend funcionando 🚀");
 
