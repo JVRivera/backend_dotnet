@@ -1,6 +1,7 @@
 # Build folders
 bin/
 obj/
+.vs/
 
 # Visual Studio
 .vs/
@@ -49,3 +50,4 @@ secrets.json
 # IIS
 *.vspscc
 *.vssscc
+
