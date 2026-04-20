@@ -57,11 +57,8 @@ var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
 // Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -73,5 +70,7 @@ app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/", () => "Backend funcionando 🚀");
 
 app.Run();
