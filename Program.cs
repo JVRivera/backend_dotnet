@@ -8,16 +8,12 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// para que escuche el puerto que le asigne el servidor cuando se hace el deploy
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
-
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Services
-builder.Services.AddScoped<ITareaService, TareaService>(); 
+builder.Services.AddScoped<ITareaService, TareaService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 // Controllers
@@ -36,7 +32,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//token authentication
+// JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,21 +53,20 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// Swagger
+// Swagger (solo en dev recomendado, pero lo dejamos para ahora)
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // OK comentado
 
 app.UseCors("AllowAll");
-
-//app.UseAuthorization();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Test endpoint
 app.MapGet("/", () => "Backend funcionando 🚀");
 
 app.Run();
